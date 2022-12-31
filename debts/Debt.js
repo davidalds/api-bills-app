@@ -19,7 +19,7 @@ const Debt = sequelize.define("Debt", {
     allowNull: false
   },
   payday: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
   },
   status: {

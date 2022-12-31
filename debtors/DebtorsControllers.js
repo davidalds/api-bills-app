@@ -31,7 +31,7 @@ router.get("/debtors", async (req, res) => {
   }
 });
 
-router.get("/debtor/:debtorId",auth, checkUser, async (req, res) => {
+router.get("/debtor/:debtorId", auth, checkUser, async (req, res) => {
   try {
     const { debtorId } = req.params;
 
@@ -44,8 +44,20 @@ router.get("/debtor/:debtorId",auth, checkUser, async (req, res) => {
     const total_price_debts = await Debt.sum("price", {
       where: { DebtorId: debtorId },
     });
+    const payed_debts = await (
+      await Debt.findAndCountAll({ where: { status: "Paga" } })
+    ).count;
+    const open_debts = await (
+      await Debt.findAndCountAll({ where: { status: "Devendo" } })
+    ).count;
 
-    res.status(200).json({count_creditors, count_debts, total_price_debts});
+    res.status(200).json({
+      count_creditors,
+      count_debts,
+      total_price_debts,
+      payed_debts,
+      open_debts,
+    });
   } catch {
     res.status(500).json({
       errors: {
