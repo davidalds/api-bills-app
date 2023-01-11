@@ -3,8 +3,8 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../database/connection");
 
 // associations models
-const Creditor = require("../creditors/Creditor");
-const Debtor = require("../debtors/Debtor");
+const Creditor = require("./Creditor");
+const Debtor = require("./Debtor");
 
 const Debt = sequelize.define("Debt", {
   title: {

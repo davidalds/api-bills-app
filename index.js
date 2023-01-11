@@ -33,18 +33,18 @@ app.use(cors(corsOptions));
 })();
 
 // models
-const Debtor = require("./debtors/Debtor");
-const Creditor = require("./creditors/Creditor");
-const Debt = require("./debts/Debt");
+const Debtor = require("./models/Debtor");
+const Creditor = require("./models/Creditor");
+const Debt = require("./models/Debt");
 
-// controllers
-const debtorsControllers = require("./debtors/DebtorsControllers");
-const creditorsControllers = require("./creditors/CreditorsControllers");
-const debtsControllers = require("./debts/debtsControllers");
+// routes
+const debtorRoutes = require("./routes/debtorRoutes");
+const creditorRoutes = require("./routes/creditorRoutes");
+const debtRoutes = require('./routes/debtsRoutes')
 
-app.use("/", debtorsControllers);
-app.use("/", creditorsControllers);
-app.use("/", debtsControllers);
+app.use("/", debtorRoutes);
+app.use("/", creditorRoutes);
+app.use("/", debtRoutes);
 
 app.listen(port, () => {
   console.log(`Api rodando na porta ${port}`);

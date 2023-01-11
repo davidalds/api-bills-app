@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 const sequelize = require("../database/connection");
 
-const Debtor = require("../debtors/Debtor");
+const Debtor = require("./Debtor");
 
 const Creditor = sequelize.define("Creditor", {
   name: {
