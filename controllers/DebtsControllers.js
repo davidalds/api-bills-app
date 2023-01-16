@@ -6,21 +6,24 @@ const Debtor = require("../models/Debtor");
 
 const { validationResult } = require("express-validator");
 
-class DebtsControllers{
-
-  async getDebts(req, res){
+class DebtsControllers {
+  async getDebts(req, res) {
     try {
       const { debtorId, creditorId } = req.params;
       const [limit, offset] = [
         parseInt(req.query["limit"]),
         parseInt(req.query["offset"]),
       ];
+      const statusFilter = req.query["status"];
+
       let debts = [];
       if (!creditorId) {
         debts = await Debt.findAndCountAll({
           limit: limit || undefined,
           offset: offset || undefined,
-          where: { DebtorId: debtorId },
+          where: statusFilter
+            ? { DebtorId: debtorId, status: statusFilter }
+            : { DebtorId: debtorId },
           include: [
             {
               model: Debtor,
@@ -51,7 +54,10 @@ class DebtsControllers{
         debts = await Debt.findAndCountAll({
           limit: limit || undefined,
           offset: offset || undefined,
-          where: { DebtorId: debtorId, CreditorId: creditorId },
+          where: {
+            DebtorId: debtorId,
+            CreditorId: creditorId,
+          },
         });
       }
 
@@ -66,20 +72,20 @@ class DebtsControllers{
     }
   }
 
-  async getDebt(req, res){
+  async getDebt(req, res) {
     try {
       const { debtorId, debtId } = req.params;
-  
+
       const debt = await Debt.findByPk(debtId, {
         include: {
           model: Creditor,
         },
       });
-  
+
       if (!debt) {
         return res.status(200).json([]);
       }
-  
+
       if (debt.DebtorId !== parseInt(debtorId)) {
         return res.status(400).json({
           errors: {
@@ -87,7 +93,7 @@ class DebtsControllers{
           },
         });
       }
-  
+
       res.status(200).json(debt);
     } catch (err) {
       res.status(500).json({
@@ -98,7 +104,7 @@ class DebtsControllers{
     }
   }
 
-  async createDebt(req, res){
+  async createDebt(req, res) {
     try {
       const errors = validationResult(req);
 
@@ -131,7 +137,7 @@ class DebtsControllers{
     }
   }
 
-  async updateDebt(req, res){
+  async updateDebt(req, res) {
     try {
       const errors = validationResult(req);
 
