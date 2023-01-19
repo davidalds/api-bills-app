@@ -1,6 +1,3 @@
-const express = require("express");
-const router = express();
-
 const Creditor = require("../models/Creditor");
 const Debt = require("../models/Debt");
 

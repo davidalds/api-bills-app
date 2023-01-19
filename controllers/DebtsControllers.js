@@ -1,5 +1,3 @@
-const express = require("express");
-
 const Debt = require("../models/Debt");
 const Creditor = require("../models/Creditor");
 const Debtor = require("../models/Debtor");

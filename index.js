@@ -36,6 +36,7 @@ app.use(cors(corsOptions));
 const Debtor = require("./models/Debtor");
 const Creditor = require("./models/Creditor");
 const Debt = require("./models/Debt");
+const PasswordTokens = require('./models/PasswordTokens')
 
 // routes
 const debtorRoutes = require("./routes/debtorRoutes");
