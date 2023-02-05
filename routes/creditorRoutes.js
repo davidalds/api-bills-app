@@ -33,8 +33,16 @@ router.post(
 router.patch(
   "/creditor/:debtorId/:creditorId",
   auth,
+  checkuser,
   updateCreditorSchema,
   CreditorsControllers.updateCreditor
+);
+
+router.delete(
+  "/creditor/:debtorId/:creditorId",
+  auth,
+  checkuser,
+  CreditorsControllers.deleteCredor
 );
 
 module.exports = router;

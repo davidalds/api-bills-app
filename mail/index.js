@@ -8,4 +8,3 @@ exports.transporter = nodemailer.createTransport({
     }
 })
 
-

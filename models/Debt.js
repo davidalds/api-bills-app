@@ -16,7 +16,7 @@ const Debt = sequelize.define("Debt", {
   },
   price: {
     type: DataTypes.FLOAT,
-    allowNull: false
+    allowNull: false,
   },
   payday: {
     type: DataTypes.DATEONLY,
@@ -25,7 +25,7 @@ const Debt = sequelize.define("Debt", {
   status: {
     type: DataTypes.ENUM,
     values: ["Paga", "Devendo", "Cancelada"],
-    allowNull: false
+    allowNull: false,
   },
 });
 
@@ -34,7 +34,9 @@ Debtor.hasMany(Debt);
 Debt.belongsTo(Debtor);
 
 // Creditor and Debt association
-Creditor.hasMany(Debt);
+Creditor.hasMany(Debt, {
+  onDelete: "SET NULL",
+});
 Debt.belongsTo(Creditor);
 
 (async () => {

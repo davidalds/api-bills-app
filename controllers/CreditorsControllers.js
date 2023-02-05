@@ -1,7 +1,7 @@
 const Creditor = require("../models/Creditor");
 const Debt = require("../models/Debt");
 
-const {validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 class CreditorsControllers {
   async getCreditors(req, res) {
@@ -127,6 +127,40 @@ class CreditorsControllers {
       res.status(500).json({
         errors: {
           msg: "Ocorreu um erro ao editar credor",
+        },
+      });
+    }
+  }
+
+  async deleteCredor(req, res) {
+    try {
+      const { debtorId, creditorId } = req.params;
+
+      const creditor = await Creditor.findByPk(creditorId);
+
+      if (!creditor) {
+        return res.status(404).json({
+          errors: {
+            msg: "Não foram encontrados credores com o ID informado",
+          },
+        });
+      }
+
+      if (!(creditor.DebtorId == debtorId)) {
+        return res.status(401).json({
+          errors: {
+            msg: "Você não possui permissão para excluir o credor",
+          },
+        });
+      }
+
+      await Creditor.destroy({ where: { id: creditorId } });
+      res.status(200).json({ msg: "Credor excluído com sucesso" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        errors: {
+          msg: "Ocorreu um erro ao deletar credor",
         },
       });
     }
