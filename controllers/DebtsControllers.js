@@ -7,7 +7,9 @@ const { validationResult } = require("express-validator");
 class DebtsControllers {
   async getDebts(req, res) {
     try {
-      const { debtorId, creditorId } = req.params;
+      const { creditorId } = req.params;
+      const { debtorId } = req;
+
       const [limit, offset] = [
         parseInt(req.query["limit"]),
         parseInt(req.query["offset"]),
@@ -41,7 +43,7 @@ class DebtsControllers {
           return res.status(200).json([]);
         }
 
-        if (creditor.DebtorId !== parseInt(debtorId)) {
+        if (creditor.DebtorId !== debtorId) {
           return res.status(400).json({
             errors: {
               msg: "Acesso negado",
@@ -72,7 +74,8 @@ class DebtsControllers {
 
   async getDebt(req, res) {
     try {
-      const { debtorId, debtId } = req.params;
+      const { debtId } = req.params;
+      const { debtorId } = req;
 
       const debt = await Debt.findByPk(debtId, {
         include: {
@@ -84,7 +87,7 @@ class DebtsControllers {
         return res.status(200).json([]);
       }
 
-      if (debt.DebtorId !== parseInt(debtorId)) {
+      if (debt.DebtorId !== debtorId) {
         return res.status(400).json({
           errors: {
             msg: "Acesso negado",
@@ -143,7 +146,8 @@ class DebtsControllers {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { debtorId, debtId } = req.params;
+      const { debtId } = req.params;
+      const { debtorId } = req;
 
       const body = req.body;
 

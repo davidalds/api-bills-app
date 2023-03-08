@@ -13,7 +13,7 @@ const auth = (req, res, next) => {
 
   jwt.verify(token, process.env.PRIVATE_KEY, (err, data) => {
     if (err) {
-      return res.status(404).json({
+      return res.status(401).json({
         errors: {
           msg: "Token inválido",
         },

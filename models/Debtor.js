@@ -3,14 +3,19 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../database/connection");
 
 const Debtor = sequelize.define("Debtor", {
+  uid: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+  },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email:{
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    unique: true,
   },
   balance: {
     type: DataTypes.FLOAT,
@@ -19,9 +24,9 @@ const Debtor = sequelize.define("Debtor", {
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate:{
-        len: [5]
-    }
+    validate: {
+      len: [5],
+    },
   },
 });
 

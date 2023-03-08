@@ -6,20 +6,28 @@ const DebtsControllers = require("../controllers/DebtsControllers");
 
 const auth = require("../middlewares/authentication");
 const checkUser = require("../middlewares/checkuser");
+const getuserid = require("../middlewares/getuserid");
 
 router.get(
-  "/debts/:debtorId/:creditorId?",
+  "/debts/:debtorUid/:creditorId?",
   auth,
   checkUser,
+  getuserid,
   DebtsControllers.getDebts
 );
 router.get(
-  "/debt/:debtorId/:debtId",
+  "/debt/:debtorUid/:debtId",
   auth,
   checkUser,
+  getuserid,
   DebtsControllers.getDebt
 );
 router.post("/debt", auth, debtsControllers.createDebt);
-router.patch("/debt/:debtorId/:debtId", auth, debtsControllers.updateDebt);
+router.patch(
+  "/debt/:debtorUid/:debtId",
+  auth,
+  getuserid,
+  debtsControllers.updateDebt
+);
 
 module.exports = router;

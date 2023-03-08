@@ -6,13 +6,14 @@ const { validationResult } = require("express-validator");
 class CreditorsControllers {
   async getCreditors(req, res) {
     try {
-      const { debtorId } = req.params;
+      const { debtorId } = req;
+
       const [limit, offset] = [
         parseInt(req.query["limit"]),
         parseInt(req.query["offset"]),
       ];
       const creditors = await Creditor.findAndCountAll({
-        where: { DebtorId: parseInt(debtorId) },
+        where: { DebtorId: debtorId },
         limit: limit || undefined,
         offset: offset || undefined,
       });
@@ -28,14 +29,15 @@ class CreditorsControllers {
 
   async getCreditor(req, res) {
     try {
-      const { debtorId, creditorId } = req.params;
+      const { creditorId } = req.params;
+      const { debtorId } = req;
       const creditor = await Creditor.findByPk(creditorId);
 
       if (!creditor) {
         return res.status(200).json([]);
       }
 
-      if (creditor.DebtorId !== parseInt(debtorId)) {
+      if (creditor.DebtorId !== debtorId) {
         return res.status(401).json({
           errors: {
             msg: "Acesso negado",
@@ -90,7 +92,8 @@ class CreditorsControllers {
 
   async updateCreditor(req, res) {
     try {
-      const { debtorId, creditorId } = req.params;
+      const { creditorId } = req.params;
+      const { debtorId } = req;
 
       const errors = validationResult(req);
 
@@ -134,7 +137,8 @@ class CreditorsControllers {
 
   async deleteCredor(req, res) {
     try {
-      const { debtorId, creditorId } = req.params;
+      const { creditorId } = req.params;
+      const { debtorId } = req;
 
       const creditor = await Creditor.findByPk(creditorId);
 

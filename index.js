@@ -36,12 +36,12 @@ app.use(cors(corsOptions));
 const Debtor = require("./models/Debtor");
 const Creditor = require("./models/Creditor");
 const Debt = require("./models/Debt");
-const PasswordTokens = require('./models/PasswordTokens')
+const PasswordTokens = require("./models/PasswordTokens");
 
 // routes
 const debtorRoutes = require("./routes/debtorRoutes");
 const creditorRoutes = require("./routes/creditorRoutes");
-const debtRoutes = require('./routes/debtsRoutes')
+const debtRoutes = require("./routes/debtsRoutes");
 
 app.use("/", debtorRoutes);
 app.use("/", creditorRoutes);

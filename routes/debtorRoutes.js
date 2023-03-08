@@ -10,8 +10,15 @@ const {
   recoverPasswordSchema,
   changePasswordSchema,
 } = require("../middlewares/schemas/debtorSchemas");
+const getuserid = require("../middlewares/getuserid");
 
-router.get("/debtor/:debtorId", auth, checkUser, DebtorsControllers.getDebtor);
+router.get(
+  "/debtor/:debtorUid",
+  auth,
+  checkUser,
+  getuserid,
+  DebtorsControllers.getDebtor
+);
 router.post("/debtor", createDebtorSchema, DebtorsControllers.createDebtor);
 router.post("/login", loginDebtorSchema, DebtorsControllers.login);
 router.post(

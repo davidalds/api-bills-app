@@ -33,7 +33,7 @@ class DebtorsControllers {
 
   async getDebtor(req, res) {
     try {
-      const { debtorId } = req.params;
+      const { debtorId } = req;
 
       const count_creditors = await (
         await Creditor.findAndCountAll({ where: { DebtorId: debtorId } })
@@ -54,6 +54,11 @@ class DebtorsControllers {
           where: { status: "Devendo", DebtorId: debtorId },
         })
       ).count;
+      const canceled_debts = await (
+        await Debt.findAndCountAll({
+          where: { status: "Cancelada", DebtorId: debtorId },
+        })
+      ).count;
 
       res.status(200).json({
         count_creditors,
@@ -61,6 +66,7 @@ class DebtorsControllers {
         total_price_debts,
         payed_debts,
         open_debts,
+        canceled_debts,
       });
     } catch {
       res.status(500).json({
@@ -123,7 +129,7 @@ class DebtorsControllers {
       }
 
       const token = jwt.sign(
-        { id: user.id, name: user.name, email: user.email },
+        { id: user.id, uid: user.uid, name: user.name, email: user.email },
         process.env.PRIVATE_KEY,
         { expiresIn: "24h" }
       );

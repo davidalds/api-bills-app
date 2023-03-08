@@ -9,17 +9,20 @@ const {
   createCreditorSchema,
   updateCreditorSchema,
 } = require("../middlewares/schemas/creditorSchemas");
+const getuserid = require("../middlewares/getuserid");
 
 router.get(
-  "/creditors/:debtorId",
+  "/creditors/:debtorUid",
   auth,
   checkuser,
+  getuserid,
   CreditorsControllers.getCreditors
 );
 router.get(
-  "/creditor/:debtorId/:creditorId",
+  "/creditor/:debtorUid/:creditorId",
   auth,
   checkuser,
+  getuserid,
   CreditorsControllers.getCreditor
 );
 
@@ -31,17 +34,19 @@ router.post(
 );
 
 router.patch(
-  "/creditor/:debtorId/:creditorId",
+  "/creditor/:debtorUid/:creditorId",
   auth,
   checkuser,
+  getuserid,
   updateCreditorSchema,
   CreditorsControllers.updateCreditor
 );
 
 router.delete(
-  "/creditor/:debtorId/:creditorId",
+  "/creditor/:debtorUid/:creditorId",
   auth,
   checkuser,
+  getuserid,
   CreditorsControllers.deleteCredor
 );
 

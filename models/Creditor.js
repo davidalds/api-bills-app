@@ -9,9 +9,9 @@ const Creditor = sequelize.define("Creditor", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email:{
+  email: {
     type: DataTypes.STRING,
-    unique: true
+    unique: true,
   },
   creditor_type: {
     type: DataTypes.ENUM,
