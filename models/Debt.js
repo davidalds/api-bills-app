@@ -18,13 +18,17 @@ const Debt = sequelize.define("Debt", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  debtday: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+  },
   payday: {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
   status: {
     type: DataTypes.ENUM,
-    values: ["Paga", "Devendo", "Cancelada"],
+    values: ["Paga", "Devendo"],
     allowNull: false,
   },
 });

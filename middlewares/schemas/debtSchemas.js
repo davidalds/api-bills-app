@@ -2,6 +2,12 @@ const { check } = require("express-validator");
 
 exports.createDebtSchema = [
   check("title").trim().notEmpty().withMessage("Título é um campo obrigatório"),
+  check("debtday")
+    .trim()
+    .notEmpty()
+    .withMessage("Data do débito é um campo obrigatório")
+    .isDate()
+    .withMessage("Data de débito não é válida"),
   check("payday")
     .trim()
     .notEmpty()
@@ -31,6 +37,13 @@ exports.updateDebtSchema = [
     .trim()
     .notEmpty()
     .withMessage("Título é um campo obrigatório"),
+  check("debtday")
+    .if(check("debtday").exists())
+    .trim()
+    .notEmpty()
+    .withMessage("Data do débito é um campo obrigatório")
+    .isDate()
+    .withMessage("Data de débito não é válida"),
   check("payday")
     .if(check("payday").exists())
     .trim()

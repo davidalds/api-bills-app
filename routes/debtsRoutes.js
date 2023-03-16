@@ -8,6 +8,11 @@ const auth = require("../middlewares/authentication");
 const checkUser = require("../middlewares/checkuser");
 const getuserid = require("../middlewares/getuserid");
 
+const {
+  createDebtSchema,
+  updateDebtSchema,
+} = require("../middlewares/schemas/debtSchemas");
+
 router.get(
   "/debts/:debtorUid/:creditorId?",
   auth,
@@ -22,12 +27,19 @@ router.get(
   getuserid,
   DebtsControllers.getDebt
 );
-router.post("/debt", auth, debtsControllers.createDebt);
+router.post("/debt", auth, createDebtSchema, debtsControllers.createDebt);
 router.patch(
   "/debt/:debtorUid/:debtId",
   auth,
   getuserid,
+  updateDebtSchema,
   debtsControllers.updateDebt
+);
+router.get(
+  "/debts/notify/:debtorUid/",
+  auth,
+  getuserid,
+  debtsControllers.notifyDebts
 );
 
 module.exports = router;

@@ -113,12 +113,20 @@ class DebtsControllers {
         return res.status(400).json({ errors: errors.array() });
       }
 
-      const { title, description, payday, price, DebtorId, CreditorId } =
-        req.body;
+      const {
+        title,
+        description,
+        debtday,
+        payday,
+        price,
+        DebtorId,
+        CreditorId,
+      } = req.body;
 
       await Debt.create({
         title,
         description,
+        debtday,
         payday,
         status: "Devendo",
         price,
@@ -129,7 +137,8 @@ class DebtsControllers {
       res.status(200).json({
         msg: "Dívida cadastrada com sucesso",
       });
-    } catch {
+    } catch (err) {
+      console.log(err);
       res.status(500).json({
         errors: {
           msg: "Ocorreu um erro ao registrar devedor",
@@ -179,6 +188,17 @@ class DebtsControllers {
       res.status(500).json({
         errors: {
           msg: "Ocorreu um erro ao alterar informações da dívida",
+        },
+      });
+    }
+  }
+
+  async notifyDebts(req, res) {
+    try {
+    } catch (err) {
+      res.status(500).json({
+        errors: {
+          msg: "Ocorreu um erro ao obter a notificação de dívidas",
         },
       });
     }
