@@ -3,6 +3,7 @@ const Creditor = require("../models/Creditor");
 const Debtor = require("../models/Debtor");
 
 const { validationResult } = require("express-validator");
+const compareDates = require("../utils/compareDates");
 
 class DebtsControllers {
   async getDebts(req, res) {
@@ -195,7 +196,22 @@ class DebtsControllers {
 
   async notifyDebts(req, res) {
     try {
+      const { debtorId } = req;
+
+      const debts = await Debt.findAll({
+        where: { DebtorId: debtorId, status: "Devendo" },
+        attributes: ["id", "title", "payday"],
+      });
+
+      const res_debts = debts.filter((debt) => compareDates(debt.payday));
+      const total = res_debts.length;
+
+      res.status(200).json({
+        total,
+        debts: res_debts,
+      });
     } catch (err) {
+      console.log(err);
       res.status(500).json({
         errors: {
           msg: "Ocorreu um erro ao obter a notificação de dívidas",

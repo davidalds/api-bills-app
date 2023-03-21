@@ -14,6 +14,13 @@ const {
 } = require("../middlewares/schemas/debtSchemas");
 
 router.get(
+  "/debts/notify/:debtorUid",
+  auth,
+  checkUser,
+  getuserid,
+  debtsControllers.notifyDebts
+);
+router.get(
   "/debts/:debtorUid/:creditorId?",
   auth,
   checkUser,
@@ -34,12 +41,6 @@ router.patch(
   getuserid,
   updateDebtSchema,
   debtsControllers.updateDebt
-);
-router.get(
-  "/debts/notify/:debtorUid/",
-  auth,
-  getuserid,
-  debtsControllers.notifyDebts
 );
 
 module.exports = router;
